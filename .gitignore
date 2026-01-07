@@ -1,3 +1,13 @@
+# virtual environment
+venv/
+
+# python cache
 __pycache__/
+*.pyc
+
+# outputs
 outputs/
-.env
+
+# system files
+.DS_Store
+Thumbs.db
