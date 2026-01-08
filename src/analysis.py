@@ -77,7 +77,7 @@ df_sorted_total= df.sort_values(by = "Total_Marks" , ascending = False )
 
 
 #week_students 
-week_students = df[df["Label"] == "Weak"]
+weak_students = df[df["Label"] == "Weak"]
 # print(week_students[["Student_Name","Maths","English","Science","Total_Marks"]])
 final_table = df_sorted_total[["Student_Name","Maths","English","Science","Total_Marks","Percentage"]]
 
@@ -95,11 +95,11 @@ print("\n ------------Top Performances------------------")
 Toppers_students = df_sorted_total.head(3)
 print(Toppers_students)
 print("\nAttention Needed Students:")
-weekStudents = df[(df["Maths"] < 60 ) |
+weakStudents = df[(df["Maths"] < 60 ) |
                   (df["English"] < 60 ) |
                   (df["Science"] < 60 )
                 ]
-attention_students = weekStudents[["Student_Name","Maths","Science","English"]]
+attention_students = weakStudents[["Student_Name","Maths","Science","English"]]
 print(attention_students)
 # Saved to the files 
 final_table.to_csv("outputs/final_student_report.csv",index=False)
