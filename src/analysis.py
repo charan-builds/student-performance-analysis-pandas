@@ -55,7 +55,7 @@ def final_report(topper_students,full_data,attention_students):
   
 if __name__ =="__main__":
   try: 
-    df = load_data("data/student_performance.csv")
+    df = load_data("data/student_perfromance.csv")
     validate_marks(df)
     check_missing_values(df)
     df = add_features(df)

@@ -11,3 +11,5 @@ outputs/
 # system files
 .DS_Store
 Thumbs.db
+
+# DataFile
