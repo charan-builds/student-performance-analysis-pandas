@@ -1,4 +1,15 @@
 import pandas as pd
+def performance_label(P):
+   if P > 85:
+      label = "Excellent"
+   elif P > 70:
+      label = "Good"
+   elif P > 50:
+      label = "Average"
+   else:
+      label = "Poor"
+   return label
+ 
 df_marks = pd.read_csv("data/student_performance.csv")
 df_info = pd.read_csv("data/students_info.csv")
 print(df_marks.head())
@@ -40,3 +51,58 @@ summary = summary.reset_index()
 summary.to_csv("outputs/SummaryFile.csv",index = False)
 print("Class Wise Summary")
 print(summary)
+
+df = df_left_join
+## groupby - advanced
+class_city_avg = (
+    df
+    .groupby(["Class", "City"])[[ "Maths","Science","English"]]
+    .mean()
+    .reset_index()
+)
+class_city_count = (
+    df.groupby(["Class","City"])["Student_Name"].count().reset_index()
+ )
+print(class_city_count)
+class_city_percentage = (
+   df.groupby(["Class","City"])["Percentage"].mean().reset_index(name="Percentage_Mean")
+)
+print(class_city_percentage)
+df["Performance"] = df["Percentage"].apply(performance_label)
+performance_dist = (
+   df.groupby(["Class","Performance"])["Student_Name"].count().reset_index(name = "Count")
+)
+print(performance_dist)
+print("Class-City-Performance-Wise")
+class_city_wise = (df.groupby(["Class","City","Performance"])["Student_Name"].count().reset_index())
+print(class_city_wise)
+# total_per_class = (
+#     performance_dist.groupby("Class")["Count"]
+#     .transform("sum")
+# )
+# performance_dist["Percentage"] = (
+#     performance_dist["Count"] / total_per_class * 100
+# ).round(2)
+
+# print(performance_dist)
+total_per_class = (
+   performance_dist.groupby("Class")["Count"].transform("sum")
+)
+print(total_per_class)
+performance_dist["Percentage"] = performance_dist["Count"]/total_per_class * 100
+print(performance_dist)
+### overall Class
+class_overall = (
+    df.groupby("Class")[["Maths", "Science", "English"]]
+      .mean()
+)
+print(class_overall)
+class_overall["Overall_Mean"] = class_overall.mean(axis=1)
+print(class_overall)
+class_overall = class_overall.sort_values("Overall_Mean", ascending=False)
+print(class_overall)
+
+class_city_count.to_csv("outputs/class_city_count.csv", index=False)
+class_city_avg.to_csv("outputs/class_city_avg.csv", index=False)
+performance_dist.to_csv("outputs/performance_distribution.csv", index=False)
+class_overall.reset_index().to_csv("outputs/class_overall_ranking.csv", index=False)
